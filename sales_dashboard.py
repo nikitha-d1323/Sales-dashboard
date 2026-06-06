@@ -1,47 +1,85 @@
-# Sales Dashboard Project
-# CADD Centre Internship
-
 import tkinter as tk
 
+# --- Data ---
+months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+sales  = [150, 180, 210, 170, 230, 260, 245, 290, 310, 280, 320, 350]
+
+# --- Window ---
 root = tk.Tk()
 root.title("Sales Dashboard")
-root.geometry("1100x700")
-root.configure(bg="#1e1e2e")
+root.geometry("900x600")
+root.configure(bg="white")
 
 # --- Header ---
-header = tk.Frame(root, bg="#12122a", pady=10)
-header.pack(fill="x")
-
-tk.Label(header, text="📊  SALES DASHBOARD",
-         font=("Courier", 20, "bold"),
-         fg="#00d4ff", bg="#12122a").pack(side="left", padx=20)
-
-tk.Label(header, text="CADD Centre Internship Project",
-         font=("Courier", 10),
-         fg="#aaaaaa", bg="#12122a").pack(side="right", padx=20)
+tk.Label(root,
+         text="SALES DASHBOARD",
+         font=("Arial", 20, "bold"),
+         bg="navy", fg="white",
+         pady=10).pack(fill="x")
 
 # --- KPI Cards ---
-kpi_frame = tk.Frame(root, bg="#1e1e2e", pady=10)
-kpi_frame.pack(fill="x", padx=20)
+card_frame = tk.Frame(root, bg="white", pady=10)
+card_frame.pack(fill="x", padx=20)
 
 cards = [
-    ("🛒  Total Sales",   "1800 units",  "#0077b6"),
-    ("💰  Total Revenue", "₹ 8,98,500",  "#00b4a0"),
-    ("🎯  Target",        "₹ 9,60,000",  "#f4a261"),
-    ("✅  Achievement",   "93.5 %",       "#2dc653"),
-    ("🏆  Best Month",    "December",     "#9b59b6"),
+    ("Total Sales",   str(sum(sales)) + " units", "blue"),
+    ("Best Month",    months[sales.index(max(sales))], "green"),
+    ("Lowest Month",  months[sales.index(min(sales))], "red"),
 ]
 
 for title, value, color in cards:
-    card = tk.Frame(kpi_frame, bg=color, padx=15, pady=10)
-    card.pack(side="left", expand=True, fill="both", padx=6)
+    f = tk.Frame(card_frame, bg=color, padx=20, pady=10)
+    f.pack(side="left", expand=True, fill="both", padx=10)
+    tk.Label(f, text=title, font=("Arial", 10, "bold"), fg="white", bg=color).pack()
+    tk.Label(f, text=value, font=("Arial", 14, "bold"), fg="white", bg=color).pack()
 
-    tk.Label(card, text=title,
-             font=("Courier", 9, "bold"),
-             fg="white", bg=color).pack(anchor="w")
+# --- Bar Chart ---
+tk.Label(root,
+         text="Monthly Sales",
+         font=("Arial", 12, "bold"),
+         bg="white").pack(pady=(10,0))
 
-    tk.Label(card, text=value,
-             font=("Courier", 15, "bold"),
-             fg="white", bg=color).pack(anchor="w")
+canvas = tk.Canvas(root, bg="white", height=250)
+canvas.pack(fill="both", expand=True, padx=20, pady=10)
+
+def draw_chart(e=None):
+    canvas.delete("all")
+
+    # Canvas size
+    w = canvas.winfo_width()
+    h = canvas.winfo_height()
+
+    # Chart area
+    left   = 40
+    top    = 10
+    bottom = h - 40
+
+    max_val = max(sales)
+    gap     = (w - left) / len(sales)
+    bw      = int(gap * 0.5)
+
+    for i, (month, val) in enumerate(zip(months, sales)):
+
+        # Bar position
+        x  = left + int(i * gap + gap/2 - bw/2)
+        bh = int((bottom - top) * val / max_val)
+        y0 = bottom - bh
+
+        # Draw bar
+        canvas.create_rectangle(x, y0, x+bw, bottom, fill="steelblue", outline="")
+
+        # Value on top of bar
+        canvas.create_text(x + bw//2, y0 - 8,
+                           text=str(val),
+                           font=("Arial", 8),
+                           fill="black")
+
+        # Month label below bar
+        canvas.create_text(x + bw//2, bottom + 15,
+                           text=month,
+                           font=("Arial", 8),
+                           fill="black")
+
+canvas.bind("<Configure>", draw_chart)
 
 root.mainloop()
