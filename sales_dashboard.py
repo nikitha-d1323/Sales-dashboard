@@ -8,12 +8,15 @@ root.title("Sales Dashboard")
 root.geometry("900x600")
 root.configure(bg="white")
 
-# --- Title Label ---
-tk.Label(root,
+# --- Header Frame ---
+header_frame = tk.Frame(root, bg="navy", pady=10)
+header_frame.pack(fill="x")
+
+# --- Header Label ---
+tk.Label(header_frame,
          text="SALES DASHBOARD",
          font=("Arial", 20, "bold"),
          bg="navy",
-         fg="white",
-         pady=10).pack(fill="x")
+         fg="white").pack()
 
 root.mainloop()
