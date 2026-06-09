@@ -62,17 +62,54 @@ tk.Label(card3, text=months[sales.index(min(sales))],
 chart_frame = tk.Frame(root, bg="white")
 chart_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-# --- Canvas ---
+# --- Canvas Label ---
 tk.Label(chart_frame,
          text="Monthly Sales Chart",
          font=("Arial", 12, "bold"),
          bg="white").pack()
 
+# --- Canvas ---
 canvas = tk.Canvas(chart_frame,
                    bg="lightyellow",
                    highlightthickness=1,
                    highlightbackground="grey",
                    height=250)
 canvas.pack(fill="both", expand=True)
+
+# --- Draw Chart ---
+def draw_chart(event=None):
+    canvas.delete("all")
+
+    w = canvas.winfo_width()
+    h = canvas.winfo_height()
+
+    left   = 40
+    top    = 10
+    bottom = h - 40
+
+    # Draw bottom line
+    canvas.create_line(left, bottom, w - 10, bottom,
+                       fill="black", width=2)
+
+    # Draw left line
+    canvas.create_line(left, top, left, bottom,
+                       fill="black", width=2)
+
+    # Calculate bar size
+    max_val = max(sales)
+    gap     = (w - left) / len(sales)
+    bw      = int(gap * 0.5)
+
+    # Draw all bars using for loop
+    for i, val in enumerate(sales):
+        x  = left + int(i * gap + gap/2 - bw/2)
+        bh = int((bottom - top) * val / max_val)
+        y0 = bottom - bh
+
+        canvas.create_rectangle(x, y0, x + bw, bottom,
+                                 fill="steelblue",
+                                 outline="")
+
+canvas.bind("<Configure>", draw_chart)
 
 root.mainloop()
