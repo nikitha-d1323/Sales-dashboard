@@ -50,4 +50,15 @@ tk.Label(card2, text=months[sales.index(max(sales))],
          font=("Arial", 14, "bold"),
          bg="green", fg="white").pack()
 
+# --- Card 3 : Lowest Month ---
+card3 = tk.Frame(kpi_frame, bg="red", padx=15, pady=10)
+card3.pack(side="left", expand=True, fill="both", padx=10)
+
+tk.Label(card3, text="Lowest Month",
+         font=("Arial", 10, "bold"),
+         bg="red", fg="white").pack()
+tk.Label(card3, text=months[sales.index(min(sales))],
+         font=("Arial", 14, "bold"),
+         bg="red", fg="white").pack()
+
 root.mainloop()
