@@ -32,16 +32,22 @@ kpi_frame.pack(fill="x", padx=20)
 card1 = tk.Frame(kpi_frame, bg="blue", padx=15, pady=10)
 card1.pack(side="left", expand=True, fill="both", padx=10)
 
-tk.Label(card1,
-         text="Total Sales",
+tk.Label(card1, text="Total Sales",
          font=("Arial", 10, "bold"),
-         bg="blue",
-         fg="white").pack()
-
-tk.Label(card1,
-         text=str(sum(sales)) + " units",
+         bg="blue", fg="white").pack()
+tk.Label(card1, text=str(sum(sales)) + " units",
          font=("Arial", 14, "bold"),
-         bg="blue",
-         fg="white").pack()
+         bg="blue", fg="white").pack()
+
+# --- Card 2 : Best Month ---
+card2 = tk.Frame(kpi_frame, bg="green", padx=15, pady=10)
+card2.pack(side="left", expand=True, fill="both", padx=10)
+
+tk.Label(card2, text="Best Month",
+         font=("Arial", 10, "bold"),
+         bg="green", fg="white").pack()
+tk.Label(card2, text=months[sales.index(max(sales))],
+         font=("Arial", 14, "bold"),
+         bg="green", fg="white").pack()
 
 root.mainloop()
