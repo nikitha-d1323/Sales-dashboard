@@ -62,4 +62,17 @@ tk.Label(card3, text=months[sales.index(min(sales))],
 chart_frame = tk.Frame(root, bg="white")
 chart_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
+# --- Canvas ---
+tk.Label(chart_frame,
+         text="Monthly Sales Chart",
+         font=("Arial", 12, "bold"),
+         bg="white").pack()
+
+canvas = tk.Canvas(chart_frame,
+                   bg="lightyellow",
+                   highlightthickness=1,
+                   highlightbackground="grey",
+                   height=250)
+canvas.pack(fill="both", expand=True)
+
 root.mainloop()
