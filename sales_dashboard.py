@@ -3,11 +3,6 @@
 
 import tkinter as tk
 
-root = tk.Tk()
-root.title("Sales Dashboard")
-root.geometry("900x600")
-root.configure(bg="white")
-
 # --- Data ---
 months  = ["Jan","Feb","Mar","Apr","May","Jun",
            "Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -17,218 +12,221 @@ revenue = [45000,54000,63000,51000,69000,78000,
 target  = [40000,50000,60000,65000,70000,75000,
            80000,85000,90000,95000,100000,110000]
 
-# --- Header Frame ---
-header_frame = tk.Frame(root, bg="navy", pady=10)
-header_frame.pack(fill="x")
+# --- Window ---
+root = tk.Tk()
+root.title("Sales Dashboard")
+root.geometry("1100x650")
+root.configure(bg="white")
 
-# --- Header Label ---
-tk.Label(header_frame,
+# --- Header ---
+header = tk.Frame(root, bg="navy", pady=12)
+header.pack(fill="x")
+tk.Label(header,
          text="SALES DASHBOARD",
-         font=("Arial", 20, "bold"),
+         font=("Arial", 22, "bold"),
          bg="navy",
          fg="white").pack()
 
 # --- KPI Frame ---
-kpi_frame = tk.Frame(root, bg="white", pady=10)
-kpi_frame.pack(fill="x", padx=20)
+kpi = tk.Frame(root, bg="white", pady=10)
+kpi.pack(fill="x", padx=20)
 
-# --- Card 1 : Total Sales ---
-card1 = tk.Frame(kpi_frame, bg="blue", padx=15, pady=10)
-card1.pack(side="left", expand=True, fill="both", padx=10)
-tk.Label(card1, text="Total Sales",
+# --- Card 1 Total Sales ---
+c1 = tk.Frame(kpi, bg="blue", padx=15, pady=10)
+c1.pack(side="left", expand=True, fill="both", padx=8)
+tk.Label(c1,
+         text="Total Sales",
          font=("Arial", 10, "bold"),
-         bg="blue", fg="white").pack()
-tk.Label(card1, text=str(sum(sales)) + " units",
-         font=("Arial", 14, "bold"),
-         bg="blue", fg="white").pack()
+         bg="blue",
+         fg="white").pack()
+tk.Label(c1,
+         text=str(sum(sales)) + " units",
+         font=("Arial", 15, "bold"),
+         bg="blue",
+         fg="white").pack()
 
-# --- Card 2 : Best Month ---
-card2 = tk.Frame(kpi_frame, bg="green", padx=15, pady=10)
-card2.pack(side="left", expand=True, fill="both", padx=10)
-tk.Label(card2, text="Best Month",
+# --- Card 2 Best Month ---
+c2 = tk.Frame(kpi, bg="green", padx=15, pady=10)
+c2.pack(side="left", expand=True, fill="both", padx=8)
+tk.Label(c2,
+         text="Best Month",
          font=("Arial", 10, "bold"),
-         bg="green", fg="white").pack()
-tk.Label(card2, text=months[sales.index(max(sales))],
-         font=("Arial", 14, "bold"),
-         bg="green", fg="white").pack()
+         bg="green",
+         fg="white").pack()
+tk.Label(c2,
+         text=months[sales.index(max(sales))],
+         font=("Arial", 15, "bold"),
+         bg="green",
+         fg="white").pack()
 
-# --- Card 3 : Lowest Month ---
-card3 = tk.Frame(kpi_frame, bg="red", padx=15, pady=10)
-card3.pack(side="left", expand=True, fill="both", padx=10)
-tk.Label(card3, text="Lowest Month",
+# --- Card 3 Lowest Month ---
+c3 = tk.Frame(kpi, bg="red", padx=15, pady=10)
+c3.pack(side="left", expand=True, fill="both", padx=8)
+tk.Label(c3,
+         text="Lowest Month",
          font=("Arial", 10, "bold"),
-         bg="red", fg="white").pack()
-tk.Label(card3, text=months[sales.index(min(sales))],
-         font=("Arial", 14, "bold"),
-         bg="red", fg="white").pack()
+         bg="red",
+         fg="white").pack()
+tk.Label(c3,
+         text=months[sales.index(min(sales))],
+         font=("Arial", 15, "bold"),
+         bg="red",
+         fg="white").pack()
 
-# --- Chart Frame ---
-chart_frame = tk.Frame(root, bg="white")
-chart_frame.pack(fill="both", expand=True, padx=20, pady=10)
+# --- Card 4 Total Revenue ---
+c4 = tk.Frame(kpi, bg="orange", padx=15, pady=10)
+c4.pack(side="left", expand=True, fill="both", padx=8)
+tk.Label(c4,
+         text="Total Revenue",
+         font=("Arial", 10, "bold"),
+         bg="orange",
+         fg="white").pack()
+tk.Label(c4,
+         text="Rs " + str(sum(revenue)),
+         font=("Arial", 15, "bold"),
+         bg="orange",
+         fg="white").pack()
 
-# ── LEFT SIDE : Bar Chart ──────────────────────
-left_frame = tk.Frame(chart_frame, bg="white")
-left_frame.pack(side="left", fill="both",
-                expand=True, padx=(0, 10))
+# --- Card 5 Achievement ---
+c5 = tk.Frame(kpi, bg="purple", padx=15, pady=10)
+c5.pack(side="left", expand=True, fill="both", padx=8)
+tk.Label(c5,
+         text="Achievement",
+         font=("Arial", 10, "bold"),
+         bg="purple",
+         fg="white").pack()
+tk.Label(c5,
+         text=str(round(sum(revenue)/sum(target)*100, 1)) + " %",
+         font=("Arial", 15, "bold"),
+         bg="purple",
+         fg="white").pack()
 
-tk.Label(left_frame,
-         text="Monthly Sales Chart",
+# --- Charts Frame ---
+charts = tk.Frame(root, bg="white")
+charts.pack(fill="both", expand=True, padx=20, pady=10)
+
+# --- Left Bar Chart ---
+left = tk.Frame(charts, bg="white")
+left.pack(side="left", fill="both", expand=True, padx=(0,10))
+tk.Label(left,
+         text="Monthly Sales (Units)",
          font=("Arial", 12, "bold"),
          bg="white").pack()
-
-canvas = tk.Canvas(left_frame,
-                   bg="lightyellow",
+canvas = tk.Canvas(left,
+                   bg="white",
                    highlightthickness=1,
                    highlightbackground="grey",
-                   height=250)
+                   height=260)
 canvas.pack(fill="both", expand=True)
 
-# --- Draw Bar Chart ---
+# --- Draw Bar Chart Function ---
 def draw_chart(event=None):
     canvas.delete("all")
-
     w = canvas.winfo_width()
     h = canvas.winfo_height()
-
-    left   = 40
-    top    = 10
-    bottom = h - 40
-
-    # Draw bottom line (x axis)
-    canvas.create_line(left, bottom, w - 10, bottom,
+    if w < 10:
+        return
+    pl  = 40
+    pt  = 15
+    pb  = h - 40
+    canvas.create_line(pl, pb, w-10, pb,
                        fill="black", width=2)
-
-    # Draw left line (y axis)
-    canvas.create_line(left, top, left, bottom,
+    canvas.create_line(pl, pt, pl, pb,
                        fill="black", width=2)
-
-    # Calculate bar size
-    max_val = max(sales)
-    gap     = (w - left) / len(sales)
-    bw      = int(gap * 0.5)
-
-    # Draw all bars with value and month labels
+    mx  = max(sales)
+    gap = (w - pl) / len(sales)
+    bw  = int(gap * 0.55)
     for i, val in enumerate(sales):
-        x  = left + int(i * gap + gap/2 - bw/2)
-        bh = int((bottom - top) * val / max_val)
-        y0 = bottom - bh
-
-        # Draw bar
-        canvas.create_rectangle(x, y0, x + bw, bottom,
+        x  = pl + int(i * gap + gap/2 - bw/2)
+        bh = int((pb - pt) * val / mx)
+        y0 = pb - bh
+        canvas.create_rectangle(x, y0, x+bw, pb,
                                  fill="steelblue",
                                  outline="")
-
-        # Draw value on top of bar
-        canvas.create_text(x + bw // 2, y0 - 8,
+        canvas.create_text(x+bw//2, y0-8,
                            text=str(val),
                            font=("Arial", 8),
                            fill="black")
-
-        # Draw month label below bar
-        canvas.create_text(x + bw // 2, bottom + 15,
+        canvas.create_text(x+bw//2, pb+15,
                            text=months[i],
                            font=("Arial", 8),
                            fill="black")
 
 canvas.bind("<Configure>", draw_chart)
 
-# ── RIGHT SIDE : Line Chart ────────────────────
-right_frame = tk.Frame(chart_frame, bg="white")
-right_frame.pack(side="left", fill="both", expand=True)
-
-tk.Label(right_frame,
-         text="Revenue vs Target",
+# --- Right Line Chart ---
+right = tk.Frame(charts, bg="white")
+right.pack(side="left", fill="both", expand=True)
+tk.Label(right,
+         text="Revenue vs Target (Rs)",
          font=("Arial", 12, "bold"),
          bg="white").pack()
-
-canvas2 = tk.Canvas(right_frame,
-                    bg="lightyellow",
+canvas2 = tk.Canvas(right,
+                    bg="white",
                     highlightthickness=1,
                     highlightbackground="grey",
-                    height=250)
+                    height=260)
 canvas2.pack(fill="both", expand=True)
 
-# --- Draw Line Chart ---
+# --- Draw Line Chart Function ---
 def draw_line(event=None):
     canvas2.delete("all")
-
     w = canvas2.winfo_width()
     h = canvas2.winfo_height()
-    if w < 10: return
-
-    left   = 50
-    top    = 10
-    bottom = h - 40
-
-    # Draw bottom line (x axis)
-    canvas2.create_line(left, bottom, w - 10, bottom,
+    if w < 10:
+        return
+    pl  = 50
+    pt  = 15
+    pb  = h - 40
+    canvas2.create_line(pl, pb, w-10, pb,
                         fill="black", width=2)
-
-    # Draw left line (y axis)
-    canvas2.create_line(left, top, left, bottom,
+    canvas2.create_line(pl, pt, pl, pb,
                         fill="black", width=2)
-
-    # Find highest value to scale the chart
-    max_val = max(max(revenue), max(target))
-
-    # Gap between each data point
-    gap = (w - left) / (len(revenue) - 1)
-
-    # Draw revenue line (green)
+    mx  = max(max(revenue), max(target))
+    gap = (w - pl) / (len(revenue) - 1)
     for i in range(len(revenue) - 1):
-        x1 = left + int(i * gap)
-        y1 = top + int((bottom - top) * (1 - revenue[i] / max_val))
-        x2 = left + int((i + 1) * gap)
-        y2 = top + int((bottom - top) * (1 - revenue[i + 1] / max_val))
+        x1 = pl + int(i * gap)
+        y1 = pt + int((pb-pt) * (1 - revenue[i] / mx))
+        x2 = pl + int((i+1) * gap)
+        y2 = pt + int((pb-pt) * (1 - revenue[i+1] / mx))
         canvas2.create_line(x1, y1, x2, y2,
                             fill="green", width=2)
-
-    # Draw target line (orange dashed)
     for i in range(len(target) - 1):
-        x1 = left + int(i * gap)
-        y1 = top + int((bottom - top) * (1 - target[i] / max_val))
-        x2 = left + int((i + 1) * gap)
-        y2 = top + int((bottom - top) * (1 - target[i + 1] / max_val))
+        x1 = pl + int(i * gap)
+        y1 = pt + int((pb-pt) * (1 - target[i] / mx))
+        x2 = pl + int((i+1) * gap)
+        y2 = pt + int((pb-pt) * (1 - target[i+1] / mx))
         canvas2.create_line(x1, y1, x2, y2,
                             fill="orange", width=2,
-                            dash=(6, 4))
-
-    # Draw dots on revenue line
+                            dash=(6,4))
     for i in range(len(revenue)):
-        x = left + int(i * gap)
-        y = top + int((bottom - top) * (1 - revenue[i] / max_val))
-        canvas2.create_oval(x - 4, y - 4, x + 4, y + 4,
-                            fill="green", outline="white")
-
-    # Draw dots on target line
+        x = pl + int(i * gap)
+        y = pt + int((pb-pt) * (1 - revenue[i] / mx))
+        canvas2.create_oval(x-4, y-4, x+4, y+4,
+                            fill="green",
+                            outline="white")
     for i in range(len(target)):
-        x = left + int(i * gap)
-        y = top + int((bottom - top) * (1 - target[i] / max_val))
-        canvas2.create_rectangle(x - 4, y - 4, x + 4, y + 4,
-                                 fill="orange", outline="")
-
-    # Draw month labels on x axis
+        x = pl + int(i * gap)
+        y = pt + int((pb-pt) * (1 - target[i] / mx))
+        canvas2.create_rectangle(x-4, y-4, x+4, y+4,
+                                 fill="orange",
+                                 outline="")
     for i in range(len(months)):
-        x = left + int(i * gap)
-        canvas2.create_text(x, bottom + 15,
+        x = pl + int(i * gap)
+        canvas2.create_text(x, pb+15,
                             text=months[i],
                             font=("Arial", 7),
                             fill="black")
-
-    # Draw legend
-    canvas2.create_line(left, h - 15,
-                        left + 20, h - 15,
+    canvas2.create_line(pl, h-15, pl+20, h-15,
                         fill="green", width=2)
-    canvas2.create_text(left + 25, h - 15,
+    canvas2.create_text(pl+25, h-15,
                         text="Revenue",
                         font=("Arial", 8),
                         fill="green", anchor="w")
-
-    canvas2.create_line(left + 90, h - 15,
-                        left + 110, h - 15,
+    canvas2.create_line(pl+90, h-15, pl+110, h-15,
                         fill="orange", width=2,
-                        dash=(6, 4))
-    canvas2.create_text(left + 115, h - 15,
+                        dash=(6,4))
+    canvas2.create_text(pl+115, h-15,
                         text="Target",
                         font=("Arial", 8),
                         fill="orange", anchor="w")
@@ -237,11 +235,11 @@ canvas2.bind("<Configure>", draw_line)
 
 # --- Footer ---
 tk.Label(root,
-         text="Sales Dashboard | Built with Python and Tkinter",
+         text="Sales Dashboard | Built with Python and Tkinter | 2024",
          font=("Arial", 8),
          bg="navy",
          fg="white",
          pady=5).pack(fill="x", side="bottom")
 
-# --- Keep window open ---
+# --- Run Window ---
 root.mainloop()
